@@ -1,14 +1,36 @@
-<nav>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/recipes">Recipes</a></li>
-        
-        {% if user.is_authenticated %}
-            <li><a href="/recipes/create/">New Recipe</a></li>
-            <li><a href="/logout">Log out</a></li>
-        {% else %}
-            <li><a href="/signin">Sign In</a></li>
-            <li><a href="/signup">Sign Up</a></li>
-        {% endif %}
-    </ul>
+<nav class="navbar navbar-expand-sm ">
+      <div class="container">
+        <a class="navbar-brand user-select-none" href="/">Rice Paradise</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active user-select-none" href="/recipes" aria-current="page">Recipes</span></a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link user-select-none" href="/recipes/create/">Create Recipe</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% if request.path == '/recipes/' and user.is_authenticated %}
+            <form class="d-flex my-2 my-lg-0 m-auto w-50  mx-2">
+                <input class="form-control me-sm-2" onChange="()" type="text" name="search" placeholder="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0 user-select-none" type="submit">Search</button>
+            </form>
+            {% endif %}
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                {% if user.is_authenticated %}
+                    <li><a href="/logout"><button class="btn btn-primary mx-1 user-select-none">Log Out</button></a></li>
+                {% else %}
+                    <li><a href="/signin"><button class="btn btn-primary mx-1 user-select-none">Sign In</button></a></li>
+                    <li><a href="/signup"><button class="btn btn-primary mx-1 user-select-none">Sign Up</button></a></li>
+                {% endif %}
+            </ul>
+        </div>
+  </div>
 </nav>
+

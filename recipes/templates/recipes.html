@@ -2,10 +2,33 @@
 
 {% block content %}
 
-    <h1>Recipes</h1>
-    <ul>
+    <main class="container py-5">
+      <h1 class="text-center user-select-none">Recipes</h1>
+      <div class="row">
+        {% if recipes|length == 0 %}
+          <h1 user-select-none>no recipes found!</h1>
+        {% else %}
         {% for recipe in recipes %}
-            <li><a href="{% url 'detailRecipe' recipe.id %}">{{ recipe.name }} ({{recipe.ingredients}})</a></li>
+          <div class="col-lg-6 col-12">
+              <a href="{% url 'detailRecipe' recipe.id %}">
+                <div class="card m-2">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <img src="{{recipe.photo}}" alt="{{recipe.name}}" class="card-image-left user-select-none" width=100>
+                      <div class="d-flex flex-column mx-2">
+                        <h3 class="card-title user-select-none">{{recipe.name}}</h3>
+                        <p class="card-text mx-2 user-select-none">{{recipe.ingredients}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+          </div>
         {% endfor %}
-    </ul>
+        {% endif %}
+      </div>      
+    </main>
+      
 {% endblock content %}
+
+

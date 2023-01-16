@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<main class="container py-5">
+    <div class="row">
+        <div class="m-auto w-50">
+            {{ error }}
+            
+            <div class="d-flex justify-content-between">
+                <h1 class="text-center user-select-none">Edit Recipe</h1>
+                <a href="{% url 'detailRecipe' recipe.id %}"><button class="btn btn-primary user-select-none"> go back </button></a>
+            </div>
+            <form action="{% url 'editRecipe' recipe.id %}" method="POST" class="card card-body user-select-none">
+                
+                <img style="width: 200px;" src="{{recipe.photo}}" alt="{{recipe.name}}" class="m-auto user-select-none">
+                {% csrf_token %}
+                {{form}}
+                <button class="btn btn-primary mx-1 my-3 user-select-none">Save</button>
+            </form>
+        </div>
+    </div>
+</main>
     
-    {{ error }}
-
-    <h1>edit recipe</h1>
-
-    <form action="/recipes/edit/{{recipe.id}}/" method="POST">
-
-        {% csrf_token %}
-        {{form.as_p}}
-        <button>Save!</button>
-    </form>
 
 {% endblock content %}

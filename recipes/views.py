@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.db.models import Q
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import RecipeForm
@@ -31,7 +32,7 @@ def signin(request):
             })
         else:
             login(request, user)
-            return redirect('home')
+            return redirect('recipes')
         
 def signup(request):
 
@@ -46,7 +47,7 @@ def signup(request):
                 user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
                 user.save()
                 login(request, user)
-                return redirect('home')
+                return redirect('recipes')
 
             except IntegrityError:
                 return render(request, 'signup.html',{
@@ -80,7 +81,20 @@ def createRecipe(request):
             })
 
 def recipes(request):
-    recipes = Recipe.objects.all()
+    if request.method == 'GET':
+        if 'search' in request.GET:
+            try:
+                search = request.GET['search']
+                multiple_q = Q(
+                    Q(name__icontains=search) |
+                    Q(ingredients__icontains=search)
+                )
+                recipes = Recipe.objects.filter(multiple_q)
+            except:
+                recipes = Recipe.objects.all()
+        else:
+            recipes = Recipe.objects.all()
+
     return render(request, 'recipes.html',{
         'recipes': recipes
     })
@@ -119,6 +133,7 @@ def editRecipe(request, recipe_id):
 
 @login_required
 def deleteRecipe(request, recipe_id):
+
     if request.method == "GET":
         try:
             recipe = get_object_or_404(Recipe, pk=recipe_id)
@@ -127,3 +142,10 @@ def deleteRecipe(request, recipe_id):
                 return redirect('recipes')
         except:
             return redirect('recipes')
+
+def searchRecipe(request):
+    if request.method == 'POST':
+        recipes = Recipe.objects.all()
+        return render(request, 'recipes',{
+            'recipes': recipes
+        })

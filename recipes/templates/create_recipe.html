@@ -2,15 +2,25 @@
 
 {% block content %}
     
-    {{ error }}
+    <main class="container py-5">
+        <div class="row">
+            <div class="m-auto w-50">
+                <div class="d-flex justify-content-between">
+                    <h1 class="text-center user-select-none">Create Recipe</h1>
+                    <a href="{% url 'recipes' %}"><button class="btn btn-primary user-select-none"> go back </button></a>
+                </div>
+                {{ error }}
 
-    <h1>create recipe</h1>
+                <form action="/recipes/create/" method="POST" class="card card-body">
 
-    <form action="/recipes/create/" method="POST">
-
-        {% csrf_token %}
-        {{form.as_p}}
-        <button>Save!</button>
-    </form>
+                    <img style="width: 200px;" src="https://cookimia.com/wp-content/uploads/2012/11/arroz.jpg" alt="new recipe photo" class="m-auto user-select-none">
+                    {% csrf_token %}
+                    {{form}}
+                    <button class="btn btn-primary mx-1 my-3 user-select-none">Create</button>
+                </form>
+            </div>
+        </div>
+    </main>
 
 {% endblock content %}
+
