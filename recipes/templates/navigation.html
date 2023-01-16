@@ -1,0 +1,14 @@
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/recipes">Recipes</a></li>
+        
+        {% if user.is_authenticated %}
+            <li><a href="/recipes/create/">New Recipe</a></li>
+            <li><a href="/logout">Log out</a></li>
+        {% else %}
+            <li><a href="/signin">Sign In</a></li>
+            <li><a href="/signup">Sign Up</a></li>
+        {% endif %}
+    </ul>
+</nav>

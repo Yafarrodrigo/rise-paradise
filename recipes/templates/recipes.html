@@ -3,5 +3,9 @@
 {% block content %}
 
     <h1>Recipes</h1>
-
+    <ul>
+        {% for recipe in recipes %}
+            <li><a href="{% url 'detailRecipe' recipe.id %}">{{ recipe.name }} ({{recipe.ingredients}})</a></li>
+        {% endfor %}
+    </ul>
 {% endblock content %}
