@@ -10,9 +10,9 @@
                 <h1 class="text-center user-select-none">Edit Recipe</h1>
                 <a href="{% url 'detailRecipe' recipe.id %}"><button class="btn btn-primary user-select-none"> go back </button></a>
             </div>
-            <form action="{% url 'editRecipe' recipe.id %}" method="POST" class="card card-body user-select-none">
+            <form action="{% url 'editRecipe' recipe.id %}" method="POST" class="card card-body user-select-none" enctype="multipart/form-data">
                 
-                <img style="width: 200px;" src="{{recipe.photo}}" alt="{{recipe.name}}" class="m-auto user-select-none">
+                <img style="width: 200px;" src="{{recipe.photo.url}}" alt="{{recipe.name}}" class="m-auto user-select-none">
                 {% csrf_token %}
                 {{form}}
                 <button class="btn btn-primary mx-1 my-3 user-select-none">Save</button>

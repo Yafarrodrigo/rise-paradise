@@ -5,8 +5,8 @@ from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import RecipeForm
-from .models import Recipe
+from .forms import RecipeForm, RecipeFormEdit
+from .models import Recipe, Profile
 
 
 # Create your views here.
@@ -45,7 +45,9 @@ def signup(request):
             
             try:
                 user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
+                profile = Profile.objects.create(user=user)
                 user.save()
+                profile.save()
                 login(request, user)
                 return redirect('recipes')
 
@@ -68,26 +70,28 @@ def createRecipe(request):
     })
     else:
         try:
-            form = RecipeForm(request.POST)
+            form = RecipeForm(request.POST, request.FILES)
             newRecipe = form.save(commit=False)
             newRecipe.user = request.user
             newRecipe.save()
 
             return redirect('recipes')
-        except:
+
+        except Exception as e:
             return render(request, 'create_recipe.html',{
                 'form': RecipeForm,
-                'error': "no se pudo crear"
+                'error': e
             })
 
 def recipes(request):
+    search_value = " "
     if request.method == 'GET':
         if 'search' in request.GET:
             try:
-                search = request.GET['search']
+                search_value = request.GET['search']
                 multiple_q = Q(
-                    Q(name__icontains=search) |
-                    Q(ingredients__icontains=search)
+                    Q(name__icontains=search_value) |
+                    Q(ingredients__icontains=search_value)
                 )
                 recipes = Recipe.objects.filter(multiple_q)
             except:
@@ -96,7 +100,8 @@ def recipes(request):
             recipes = Recipe.objects.all()
 
     return render(request, 'recipes.html',{
-        'recipes': recipes
+        'recipes': recipes,
+        'search_value': search_value
     })
 
 @login_required
@@ -110,7 +115,7 @@ def detailRecipe(request, recipe_id):
 def editRecipe(request, recipe_id):
     if request.method == 'GET':
         recipe = get_object_or_404(Recipe, pk=recipe_id)
-        form = RecipeForm(instance=recipe)
+        form = RecipeFormEdit(instance=recipe)
         return render(request,'edit_recipe.html',{
             'form': form,
             'recipe': recipe

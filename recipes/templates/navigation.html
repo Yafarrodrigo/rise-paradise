@@ -18,12 +18,15 @@
             </ul>
             {% if request.path == '/recipes/' and user.is_authenticated %}
             <form class="d-flex my-2 my-lg-0 m-auto w-50  mx-2">
-                <input class="form-control me-sm-2" onChange="()" type="text" name="search" placeholder="Search">
+                <input autofocus class="form-control me-sm-2" {% if search_value|length > 1 %}value={{search_value}}{% endif %} type="text" name="search" placeholder="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0 user-select-none" type="submit">Search</button>
             </form>
             {% endif %}
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 {% if user.is_authenticated %}
+                {% if user.profile.photo %}
+                    <img width=40 src="{{user.profile.photo.url}}" class="rounded" alt="profile picture">
+                {% endif %}
                     <li><a href="/logout"><button class="btn btn-primary mx-1 user-select-none">Log Out</button></a></li>
                 {% else %}
                     <li><a href="/signin"><button class="btn btn-primary mx-1 user-select-none">Sign In</button></a></li>
