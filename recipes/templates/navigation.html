@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm ">
+<nav class="navbar navbar-expand-sm">
       <div class="container">
         <a class="navbar-brand user-select-none" href="/">Rice Paradise</a>
         <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
@@ -22,11 +22,14 @@
                 <button class="btn btn-outline-primary my-2 my-sm-0 user-select-none" type="submit">Search</button>
             </form>
             {% endif %}
-            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0 align-items-center">
                 {% if user.is_authenticated %}
-                {% if user.profile.photo %}
-                    <img width=40 src="{{user.profile.photo.url}}" class="rounded" alt="profile picture">
-                {% endif %}
+                <a class="card" href="{% url 'ownProfile' %}"> 
+                    <div class=" d-flex p-1">
+                        <h3 class="card-title mx-2">{{user.username}}</h3>
+                        <img width=40 src="{{user.profile.photo.url}}" class="rounded card-img-right" alt="profile picture">
+                    </div>
+                </a>
                     <li><a href="/logout"><button class="btn btn-primary mx-1 user-select-none">Log Out</button></a></li>
                 {% else %}
                     <li><a href="/signin"><button class="btn btn-primary mx-1 user-select-none">Sign In</button></a></li>

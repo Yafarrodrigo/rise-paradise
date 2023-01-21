@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import RecipeForm, RecipeFormEdit
 from .models import Recipe, Profile
 
+import json
+
 
 # Create your views here.
 def home(request):
@@ -147,6 +149,22 @@ def deleteRecipe(request, recipe_id):
                 return redirect('recipes')
         except:
             return redirect('recipes')
+
+@login_required
+def ownProfilePage(request):
+    data = Profile.objects.all()
+    print(data.values())
+    return render(request, 'own_profile.html',{
+        'data': data[0]
+    })
+
+@login_required
+def profilePage(request, userId):
+    queryUser = User.objects.get(pk=userId)
+    print(queryUser)
+    return render(request, 'profile.html',{
+        'userProfile':queryUser
+    })
 
 def searchRecipe(request):
     if request.method == 'POST':

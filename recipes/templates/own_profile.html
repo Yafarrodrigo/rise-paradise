@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+<main class="container py-5 ">
+    <div class="row ">
+        <div class="m-auto">
+            <h1>user profile of: {{user.username}}</h1>
+            <img src="{{user.profile.photo.url}}" alt="profile picture">
+        </div>
+    </div>
+</main>
+    
+
+{% endblock content %}
