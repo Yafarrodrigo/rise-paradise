@@ -10,7 +10,7 @@ class RecipeForm(ModelForm):
         fields = ['name','description', 'ingredients', 'preparation', 'photo']
         widgets = {
             'name': forms.TextInput(attrs={'class':'form-control my-2', 'placeholder':'enter name...'}),
-            'description': forms.Textarea(attrs={'class':'form-control my-2', 'placeholder':'enter short description...'}),
+            'description': forms.Textarea(attrs={'class':'form-control my-2', 'placeholder':'enter short description...', 'required':False}),
             'ingredients': forms.Textarea(attrs={'class':'form-control my-2', 'placeholder':'enter ingredients...'}),
             'preparation': forms.Textarea(attrs={'class':'form-control my-2', 'placeholder':'describe how to prepare...'}),
             'photo': forms.FileInput(attrs={'class':'form-control my-2', 'onchange': 'loadFile(event);'})
@@ -41,7 +41,7 @@ class RecipeFormEdit(ModelForm):
         fields = ['name', 'description', 'ingredients', 'preparation']
         widgets = {
             'name': forms.TextInput(attrs={'class':'form-control my-2', 'placeholder':'enter name...'}),
-            'description': forms.Textarea(attrs={'class':'form-control my-2', 'placeholder':'enter short description...'}),
+            'description': forms.Textarea(attrs={'class':'form-control my-2', 'placeholder':'enter short description...', 'required':False}),
             'ingredients': forms.Textarea(attrs={'class':'form-control my-2', 'placeholder':'enter ingredients...'}),
             'preparation': forms.Textarea(attrs={'class':'form-control my-2', 'placeholder':'describe how to prepare...'})
         }

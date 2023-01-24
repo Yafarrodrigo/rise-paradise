@@ -7,6 +7,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import RecipeForm, RecipeFormEdit, ProfileForm
 from .models import Recipe, Profile
+import cloudinary
 
 import json
 
@@ -124,7 +125,7 @@ def detailRecipe(request, recipe_id):
 def editRecipe(request, recipe_id):
     if request.method == 'GET':
         recipe = get_object_or_404(Recipe, pk=recipe_id)
-        form = RecipeFormEdit(instance=recipe)
+        form = RecipeForm(instance=recipe)
         return render(request,'edit_recipe.html',{
             'form': form,
             'recipe': recipe
@@ -133,7 +134,10 @@ def editRecipe(request, recipe_id):
         try:
             recipe = get_object_or_404(Recipe, pk=recipe_id)
             if recipe.user == request.user:
-                form = RecipeForm(request.POST, instance=recipe)
+                form = RecipeForm(request.POST, request.FILES, instance=recipe)
+                if 'photo' in request.FILES:
+                    cloudinary.uploader.destroy(str(recipe.photo))
+
                 form.save()
                 return redirect('recipes')
             else:
@@ -142,7 +146,8 @@ def editRecipe(request, recipe_id):
                 'recipe': recipe,
                 'error': "not allowed!"
             })
-        except:
+        except Exception as e:
+            print(e)
             return redirect('recipes')
 
 @login_required
@@ -152,6 +157,7 @@ def deleteRecipe(request, recipe_id):
         try:
             recipe = get_object_or_404(Recipe, pk=recipe_id)
             if recipe.user == request.user:
+                cloudinary.uploader.destroy(str(recipe.photo))
                 recipe.delete()
                 return redirect('recipes')
         except:

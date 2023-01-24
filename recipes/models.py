@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
+import json
 # Create your models here.
 
 class Profile(models.Model):
@@ -14,10 +15,10 @@ class Profile(models.Model):
         return str(self.user)
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    photo = models.ImageField(upload_to="", default="media/X43pV3x_flek8a")
+    name = models.CharField(max_length=40, null=True)
+    photo = models.ImageField(upload_to="", default="media/OIP_xf4owa")
     ingredients = models.TextField(null=True)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
     preparation = models.TextField(null=True)
     created = models.DateTimeField(default=now, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

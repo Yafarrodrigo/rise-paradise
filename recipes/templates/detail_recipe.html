@@ -8,7 +8,7 @@
             <div class="card card-body w-75">
                 <div class="d-flex justify-content-between">
                     <div class="d-flex row align-items-center">
-                        <h1 class="user-select-none"> {{recipe.name}} </h1>
+                        <h2 class="user-select-none text-wrap"> {{recipe.name}} </h2>
                         <a href="{% url 'profile' recipe.user.id%}"><h4>@{{recipe.user.profile.nickname}}</h4></a>
                     </div>
                     <div class="d-flex align-items-center">
@@ -16,7 +16,7 @@
                         <a href="{% url 'editRecipe' recipe.id %}"><button class="btn btn-warning user-select-none"> edit </button></a>
                         <a href="{% url 'deleteRecipe' recipe.id %}"><button class="btn btn-danger user-select-none"> delete </button></a>
                         {% endif %}
-                        <a href="{% url 'recipes' %}"><button class="btn btn-primary user-select-none"> go back </button></a>
+                        <a href="{% url 'recipes' %}"><button class="btn btn-primary user-select-none text-nowrap"> go back </button></a>
                     </div>
                 </div>
                 <hr>
@@ -27,14 +27,14 @@
                     {% endif %}
                 <hr>
                 <div class="d-flex">
-                    <img class="card-img-left user-select-none" src="{{recipe.photo.url}}" alt="{{recipe.name}}">
+                    <img class="card-img-left user-select-none ratio ratio-1x1 h-50 w-50" src="{{recipe.photo.url}}" alt="{{recipe.name}}">
                     <div class="d-flex flex-column mx-2">
                         <h3 class="text-decoration-underline">Ingredients: </h3>
-                        <p class="card-body user-select-none" style="white-space: pre-wrap">{{recipe.ingredients}}</p>
+                        <p class="card-body user-select-none" style="white-space: pre-wrap; max-width: 25rem;">{{recipe.ingredients}}</p>
                     </div>
                 </div>
                 <div class="card card-body my-2">
-                    <h3 class="card-title text-decoration-underline">Preparation</h3>
+                    <h3 class="card-title text-decoration-underline">Preparation:</h3>
                     <p class="card-body user-select-none" style="white-space: pre-wrap;">{{recipe.preparation}}</p>
                 </div>
             </div>
