@@ -25,6 +25,7 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('logout/', views.signout, name='logout'),
     path('profile/<int:userId>/', views.profilePage, name='profile'),
+    path('ownProfile/edit/', views.editProfile, name='editProfile'),
     path('ownProfile/', views.ownProfilePage, name='ownProfile'),
     path('recipes/', views.recipes, name='recipes'),
     path('recipes/create/', views.createRecipe, name='createRecipe'),

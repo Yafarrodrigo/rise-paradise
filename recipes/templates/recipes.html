@@ -16,8 +16,12 @@
                     <div class="d-flex">
                       <img src="{{recipe.photo.url}}" alt="{{recipe.name}}" class="card-image-left user-select-none" width=100>
                       <div class="d-flex flex-column mx-2">
-                        <h3 class="card-title user-select-none">{{recipe.name}}</h3>
-                        <p class="card-text mx-2 user-select-none">{{recipe.ingredients}}</p>
+                        <h3 class="card-title user-select-none text-truncate">{{recipe.name}}</h3>
+                        {% if recipe.description %}
+                        <p class="text-decoration-underline text-truncate">{{recipe.description}}</p>
+                        {% else %}
+                        <p class="text-decoration-underline">no description added...</p>
+                        {% endif %}
                       </div>
                     </div>
                   </div>

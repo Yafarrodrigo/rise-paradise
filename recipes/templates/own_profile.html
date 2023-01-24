@@ -5,8 +5,58 @@
 <main class="container py-5 ">
     <div class="row ">
         <div class="m-auto">
-            <h1>user profile of: {{user.username}}</h1>
-            <img src="{{user.profile.photo.url}}" alt="profile picture">
+            <div class="card card-body w-75">
+                <div class="d-flex justify-content-between">
+                    <h1 class="text-center user-select-none"> {{user.profile.nickname}} </h1>
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'editProfile' %}"><button class="btn btn-warning user-select-none"> edit </button></a>
+                        <a href="{% url 'recipes' %}"><button class="btn btn-primary user-select-none"> go back </button></a>
+                    </div>
+                </div>
+                <hr>
+                <div class="d-flex">
+                    <img class="card-img-left user-select-none w-25" src="{{user.profile.photo.url}}" alt="{{user.profile.nickname}}">
+                    <div class="d-flex flex-column mx-2">
+                        <h3 class="text-decoration-underline">Bio: </h3>
+                        {% if user.profile.bio == None %}
+                        <p class="card-body user-select-none" style="white-space: pre-wrap">no bio added...</p>
+                        {% else %}
+                        <p class="card-body user-select-none" style="white-space: pre-wrap">{{user.profile.bio}}</p>
+                        {% endif %}
+                        <h3 class="card-title text-decoration-underline">Email</h3>
+                        {% if user.profile.email == None %}
+                        <p class="card-body user-select-none" style="white-space: pre-wrap;">no email added...</p>
+                        {% else %}
+                        <p class="card-body user-select-none" style="white-space: pre-wrap;">{{user.profile.email}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                <h2>Own recipies:</h2>
+                <div class="container">
+                    {% for recipe in recipes %}
+                    <div class="col-lg-6 col-12">
+                        <a href="{% url 'detailRecipe' recipe.id %}">
+                          <div class="card m-2">
+                            <div class="card-body">
+                              <div class="d-flex">
+                                <img src="{{recipe.photo.url}}" alt="{{recipe.name}}" class="card-image-left user-select-none text-truncate" width=100>
+                                <div class="d-flex flex-column mx-2">
+                                  <h3 class="card-title user-select-none text-truncate">{{recipe.name}}</h3>
+                                  {% if recipe.description %}
+                                  <p class="text-decoration-underline text-truncate">{{recipe.description}}</p>
+                                  {% else %}
+                                  <p class="text-decoration-underline">no description added...</p>
+                                  {% endif %}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </main>

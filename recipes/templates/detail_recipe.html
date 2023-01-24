@@ -7,7 +7,10 @@
         <div class="m-auto">
             <div class="card card-body w-75">
                 <div class="d-flex justify-content-between">
-                    <h1 class="text-center user-select-none"> {{recipe.name}} <small><a href="#">@{{recipe.user.username}}</a></small></h1>
+                    <div class="d-flex row align-items-center">
+                        <h1 class="user-select-none"> {{recipe.name}} </h1>
+                        <a href="{% url 'profile' recipe.user.id%}"><h4>@{{recipe.user.profile.nickname}}</h4></a>
+                    </div>
                     <div class="d-flex align-items-center">
                         {% if user.is_authenticated and recipe.user == request.user %}
                         <a href="{% url 'editRecipe' recipe.id %}"><button class="btn btn-warning user-select-none"> edit </button></a>
@@ -16,6 +19,12 @@
                         <a href="{% url 'recipes' %}"><button class="btn btn-primary user-select-none"> go back </button></a>
                     </div>
                 </div>
+                <hr>
+                    {% if recipe.description %}
+                    <p class="text-decoration-underline">{{recipe.description}}</p>
+                    {% else %}
+                    <p class="text-decoration-underline">no description added...</p>
+                    {% endif %}
                 <hr>
                 <div class="d-flex">
                     <img class="card-img-left user-select-none" src="{{recipe.photo.url}}" alt="{{recipe.name}}">

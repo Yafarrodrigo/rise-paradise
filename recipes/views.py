@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import RecipeForm, RecipeFormEdit
+from .forms import RecipeForm, RecipeFormEdit, ProfileForm
 from .models import Recipe, Profile
 
 import json
@@ -47,11 +47,15 @@ def signup(request):
             
             try:
                 user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
-                profile = Profile.objects.create(user=user)
+                profile = Profile.objects.create(user=user, bio="No bio added",nickname=request.POST['username'])
                 user.save()
                 profile.save()
                 login(request, user)
-                return redirect('recipes')
+                editForm = ProfileForm(instance=request.user.profile)
+                return render(request, 'edit_profile.html', {
+                    'profileSetup': True,
+                    'form': editForm
+                })
 
             except IntegrityError:
                 return render(request, 'signup.html',{
@@ -93,7 +97,10 @@ def recipes(request):
                 search_value = request.GET['search']
                 multiple_q = Q(
                     Q(name__icontains=search_value) |
-                    Q(ingredients__icontains=search_value)
+                    Q(description__icontains=search_value) |
+                    Q(ingredients__icontains=search_value) |
+                    Q(user__profile__nickname__icontains=search_value) |
+                    Q(user__username__icontains=search_value)
                 )
                 recipes = Recipe.objects.filter(multiple_q)
             except:
@@ -153,18 +160,42 @@ def deleteRecipe(request, recipe_id):
 @login_required
 def ownProfilePage(request):
     data = Profile.objects.all()
-    print(data.values())
+    ownRecipes = Recipe.objects.filter(user=request.user)
     return render(request, 'own_profile.html',{
-        'data': data[0]
+        'data': data[0],
+        'recipes': ownRecipes
     })
 
 @login_required
 def profilePage(request, userId):
     queryUser = User.objects.get(pk=userId)
-    print(queryUser)
+    userRecipes = Recipe.objects.filter(user=queryUser)
     return render(request, 'profile.html',{
-        'userProfile':queryUser
+        'userProfile':queryUser,
+        'recipes':userRecipes
     })
+
+@login_required
+def editProfile(request):
+    
+    if request.method == "GET":
+        form = ProfileForm(instance=request.user.profile)
+        return render(request, 'edit_profile.html', {
+            'form': form
+        })
+    else:
+        try:
+            form = ProfileForm(request.POST,request.FILES, instance=request.user.profile)
+            newData = form.save(commit=False)
+            newData.user = request.user
+            newData.save()
+            return redirect('ownProfile')
+        except Exception as e:
+            print(e)
+            form = ProfileForm(instance=request.user.profile)
+            return render(request, 'edit_profile.html', {
+                'form': form
+            })
 
 def searchRecipe(request):
     if request.method == 'POST':

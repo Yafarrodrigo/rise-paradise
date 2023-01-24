@@ -18,7 +18,7 @@
             </ul>
             {% if request.path == '/recipes/' and user.is_authenticated %}
             <form class="d-flex my-2 my-lg-0 m-auto w-50  mx-2">
-                <input autofocus class="form-control me-sm-2" {% if search_value|length > 1 %}value={{search_value}}{% endif %} type="text" name="search" placeholder="Search">
+                <input autofocus class="form-control me-sm-2" {% if search_value|length > 1 %}value={{search_value}}{% endif %} type="text" name="search" placeholder="Search by name, author, ingredients...">
                 <button class="btn btn-outline-primary my-2 my-sm-0 user-select-none" type="submit">Search</button>
             </form>
             {% endif %}

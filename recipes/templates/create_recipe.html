@@ -4,6 +4,12 @@
 
 {% block content %}
 
+    <script>
+        function loadFile(event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
 
     <main class="container py-5">
         <div class="row">
@@ -18,6 +24,7 @@
 
                     {% csrf_token %}
                     {{form}}
+                    <img class="card-img-bottom" src="" alt="image to upload" id="output">
                     <button id="submitButton" type="submit" class="btn btn-primary mx-1 my-3 user-select-none">Create</button>
                 </form>
             </div>
