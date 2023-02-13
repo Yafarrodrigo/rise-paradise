@@ -11,7 +11,7 @@
 
 <main class="container py-5">
     <div class="row">
-        <div class="m-auto w-50">
+        <div class="m-auto w-75">
             <div class="d-flex justify-content-between">
                 {% if profileSetup %}
                 <h1>Complete yuor profile!</h1>
@@ -27,7 +27,7 @@
             <form id="submitForm" method="POST" action="{% url 'editProfile' %}" class="card card-body" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{form}}
-                <img class="card-img-bottom" src="{{user.profile.photo.url}}" alt="image to upload" id="output">
+                <img class="card-img-bottom w-50 h-50" src="{{user.profile.photo.url}}" alt="image to upload" id="output">
                 <button class="btn btn-primary mx-1 my-3 user-select-none" id="submitButton">Save</button>
             </form>
         </div>

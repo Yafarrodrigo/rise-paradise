@@ -2,14 +2,14 @@
 
 {% block content %}
     
-<main class="container py-5 ">
-    <div class="row ">
+<main class="container py-5  m-auto">
+    <div class="row  m-auto">
         <div class="m-auto">
-            <div class="card card-body w-75">
+            <div class="card card-body w-100 m-auto">
                 <div class="d-flex justify-content-between">
                     <div class="d-flex row align-items-center">
                         <h2 class="user-select-none text-wrap"> {{recipe.name}} </h2>
-                        <a href="{% url 'profile' recipe.user.id%}"><h4>@{{recipe.user.profile.nickname}}</h4></a>
+                        <Span><span>made by:</span><a href="{% url 'profile' recipe.user.id%}"><small>{{recipe.user.profile.nickname}}</small></a></Span>
                     </div>
                     <div class="d-flex align-items-center">
                         {% if user.is_authenticated and recipe.user == request.user %}
@@ -21,13 +21,13 @@
                 </div>
                 <hr>
                     {% if recipe.description %}
-                    <p class="text-decoration-underline">{{recipe.description}}</p>
+                    <p>{{recipe.description}}</p>
                     {% else %}
-                    <p class="text-decoration-underline">no description added...</p>
+                    <p>no description added...</p>
                     {% endif %}
                 <hr>
                 <div class="d-flex">
-                    <img class="card-img-left user-select-none ratio ratio-1x1 h-50 w-50" src="{{recipe.photo.url}}" alt="{{recipe.name}}">
+                    <img class="card-img-left user-select-none ratio ratio-1x1 h-25 w-25" src="{{recipe.photo.url}}" alt="{{recipe.name}}">
                     <div class="d-flex flex-column mx-2">
                         <h3 class="text-decoration-underline">Ingredients: </h3>
                         <p class="card-body user-select-none" style="white-space: pre-wrap; max-width: 25rem;">{{recipe.ingredients}}</p>

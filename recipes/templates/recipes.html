@@ -11,7 +11,7 @@
         {% for recipe in recipes %}
           <div class="col-lg-6 col-12">
               <a href="{% url 'detailRecipe' recipe.id %}" class="text-decoration-none">
-                <div class="card m-2">
+                <div class="card m-2 p-2">
                   <div class="card-body">
                     <div class="d-flex">
                       <img src="{{recipe.photo.url}}" alt="{{recipe.name}}" class="card-image-left user-select-none" width=100>
