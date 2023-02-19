@@ -23,7 +23,7 @@
                 
                 {% csrf_token %}
                 {{form}}
-                <img class="card-img-bottom" src="{{recipe.photo.url}}" alt="image to upload" id="output">
+                <img class="card-img-bottom w-50 h-50" src="{{recipe.photo.url}}" alt="image to upload" id="output">
                 <button id="submitButton" class="btn btn-primary mx-1 my-3 user-select-none">Save</button>
             </form>
         </div>
